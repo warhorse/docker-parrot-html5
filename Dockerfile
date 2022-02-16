@@ -1,6 +1,8 @@
-FROM parrotsec/security:latest
+FROM parrotsec/security:rolling
 
 ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y software-properties-common
 
 RUN apt-get update && apt-get install -y apt-utils debconf-utils dialog
 
