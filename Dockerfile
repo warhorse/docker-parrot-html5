@@ -31,7 +31,7 @@ RUN sed -i -e 's/LogLevel=DEBUG/LogLevel=CORE/g' /etc/xrdp/xrdp.ini && \
 
 RUN useradd -m -s /bin/bash -G sudo xuser
 
-RUN ln -s /root/noVNC/vnc.html /root/noVNC/index.html
+COPY index.html /root/noVNC/index.html
     
 RUN apt-get update && apt-get install -y xfce4-taskmanager mousepad wget
 
