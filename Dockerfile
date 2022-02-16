@@ -11,11 +11,9 @@ RUN echo "resolvconf resolvconf/linkify-resolvconf boolean false" | debconf-set-
 RUN apt-get update
 RUN apt-get install -y resolvconf
 
-RUN apt-get upgrade -y
+RUN apt-get update && apt-get install -y xrdp locales supervisor sudo ibus ibus-mozc dbus dbus-x11
 
 RUN apt-get update && apt-get install -y parrot-interface-common parrot-desktop-xfce
-
-RUN apt-get update && apt-get install -y xrdp locales supervisor sudo ibus ibus-mozc dbus dbus-x11
 
 RUN locale-gen en_US && \
     apt-get update && apt-get install -y git tigervnc-standalone-server && \
@@ -38,6 +36,8 @@ RUN ln -s /root/noVNC/vnc.html /root/noVNC/index.html
 RUN apt-get update && apt-get install -y xfce4-taskmanager mousepad wget
 
 # RUN wget https://oswallpapers.com/wp-content/uploads/2020/04/default-1.jpg -O /usr/share/backgrounds/xfce/default.jpg
+
+RUN apt-get upgrade -y
 
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
