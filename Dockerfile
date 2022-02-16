@@ -1,8 +1,8 @@
-FROM parrotsec/security:rolling
+FROM parrotsec/security:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY parrot.list /etc/apt/sources.list.d/parrot.list
+COPY sources.list /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y apt-utils debconf-utils dialog
 
@@ -11,9 +11,9 @@ RUN echo "resolvconf resolvconf/linkify-resolvconf boolean false" | debconf-set-
 RUN apt-get update
 RUN apt-get install -y resolvconf
 
-RUN apt-get update && apt-get install -y parrot-interface-common parrot-desktop-xfce
+RUN apt-get upgrade -y
 
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update && apt-get install -y parrot-interface-common parrot-desktop-xfce
 
 RUN apt-get update && apt-get install -y xrdp locales supervisor sudo ibus ibus-mozc dbus dbus-x11
 
