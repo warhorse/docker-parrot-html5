@@ -16,7 +16,7 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y xrdp locales supervisor sudo ibus ibus-mozc dbus dbus-x11
 
 RUN locale-gen en_US && \
-    apt-get install -y git tigervnc-standalone-server && \
+    apt-get update && apt-get install -y git tigervnc-standalone-server && \
     git clone https://github.com/novnc/noVNC.git /root/noVNC && \
     git clone https://github.com/novnc/websockify.git /root/noVNC/utils/websockify
 
