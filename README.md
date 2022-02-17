@@ -20,9 +20,14 @@ Here are some example snippets to help you get started creating a container.
 docker create \
   --name=parrot-html5 \
   -e TZ=Europe/London \
+  -e VNC_PASSWORD=PASSWORD \
+  -e ROOT_PASSWORD=PASSWORD \
+  -e XUSER_PASSWORD=PASSWORD \
   -p 80:6080 \
   -v <path to data>:/home/xuser \
   --restart unless-stopped \
+  --shm-size 2g \
+  --cap-add=NET_ADMIN \
   warhorse/parrot-html5
 ```
 
@@ -37,6 +42,7 @@ version: "2"
     build: ./
     image: parrot-html5
     container_name: parrot-html5
+    shm_size: 2gb
     ports:
     - 80:6080
     environment:
@@ -58,9 +64,9 @@ Container images are configured using parameters passed at runtime (such as thos
 | :----: | --- |
 | `-p 80` | The port for HTTP traffic |
 | `-e TZ=Europe/London` | Specify a timezone to use EG Europe/London|
-| `-e TZ=VNC_PASSWORD` | Specify a VNC password|
-| `-e TZ=ROOT_PASSWORD` | Specify a root user password|
-| `-e TZ=XUSER_PASSWORD` | Specify a xuser password|
+| `-e VNC_PASSWORD=PASSWORD` | Specify a VNC password|
+| `-e ROOT_PASSWORD=PASSWORD` | Specify a root user password|
+| `-e XUSER_PASSWORD=PASSWORD` | Specify a xuser password|
 | `-v /home/xuser` | User home folder |
 
 &nbsp;
