@@ -14,4 +14,4 @@ services:
       - NET_ADMIN
     restart: always
     volumes:
-    - ./home:/home/xuser
+    - ./home:/home/xuser/files

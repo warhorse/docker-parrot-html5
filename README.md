@@ -1,7 +1,7 @@
 # [warhorse/docker-parrot-html5](https://github.com/war-horse/docker-parrot-html5)
 
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/warhorse/docker-parrot-html5)
-[![CI](https://github.com/warhorse/docker-parrot-html5/workflows/Docker/badge.svg?event=push)](https://github.com/warhorse/docker-parrot-html5/actions?query=workflow%3ADocker)
+[![Docker](https://github.com/warhorse/docker-parrot-html5/actions/workflows/docker-publish.yml/badge.svg?branch=v1.0.1)](https://github.com/warhorse/docker-parrot-html5/actions/workflows/docker-publish.yml)
 ![License](https://img.shields.io/github/license/warhorse/docker-parrot-html5)
 ![Commit](https://img.shields.io/github/last-commit/warhorse/docker-parrot-html5)
 
@@ -24,7 +24,7 @@ docker create \
   -e ROOT_PASSWORD=PASSWORD \
   -e XUSER_PASSWORD=PASSWORD \
   -p 80:6080 \
-  -v <path to data>:/home/xuser \
+  -v <path to data>:/home/xuser/files \
   --restart unless-stopped \
   --shm-size 2g \
   --cap-add=NET_ADMIN \
@@ -53,7 +53,7 @@ version: "2"
       - NET_ADMIN
     restart: always
     volumes:
-    - ./home:/home/xuser
+    - ./home:/home/xuser/files
 ```
 
 ## Parameters
@@ -67,7 +67,7 @@ Container images are configured using parameters passed at runtime (such as thos
 | `-e VNC_PASSWORD=PASSWORD` | Specify a VNC password|
 | `-e ROOT_PASSWORD=PASSWORD` | Specify a root user password|
 | `-e XUSER_PASSWORD=PASSWORD` | Specify a xuser password|
-| `-v /home/xuser` | User home folder |
+| `-v ./home:/home/xuser/files` | User home folder |
 
 &nbsp;
 ## Application Setup
