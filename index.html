@@ -67,6 +67,10 @@
             status("Connected to " + desktopName);
         }
 
+        function status(e) {
+            document.getElementById("infoTextContent").value = e
+        }
+
         // This function is called when we are disconnected
         function disconnectedFromServer(e) {
             if (e.detail.clean) {
@@ -87,6 +91,16 @@
         // a desktop name from the server
         function updateDesktopName(e) {
             desktopName = e.detail.name;
+        }
+
+        function writeToClipboard(e) {
+            rfb.clipboardPasteFrom(e)
+        }
+        
+        function clipboardReceived(e) {
+            document.getElementById("clipboard").value = e.detail.text, navigator.clipboard.writeText(e.detail.text).then(() => {}).catch(e => {
+                console.log("Something went wrong while copying to clipboard.", e)
+            })
         }
 
         // This function extracts the value of one variable from the
@@ -140,17 +154,34 @@
         // Creating a new RFB object will start a new connection
         rfb = new RFB(document.getElementById('screen'), url,
                       { credentials: { password: password } });
-
+                      
         // Add listeners to important events from the RFB module
         rfb.addEventListener("connect",  connectedToServer);
         rfb.addEventListener("disconnect", disconnectedFromServer);
         rfb.addEventListener("credentialsrequired", credentialsAreRequired);
         rfb.addEventListener("desktopname", updateDesktopName);
 
+        rfb.addEventListener("clipboard", clipboardReceived), window.addEventListener("focus", e => {
+            navigator.clipboard.readText().then(e => {
+                writeToClipboard(e)
+            }).catch(e => {
+                console.log("Something went wrong while accessing clipboard", e)
+            })
+        });
+
+        rfb.addEventListener("change", e => {
+            document.getElementById("clipboard")
+            writeToClipboard(document.getElementById("clipboard").value)
+        });
+
+
         // Set parameters that can be changed on an active connection
         rfb.viewOnly = readQueryVariable('view_only', false);
         rfb.scaleViewport = readQueryVariable('scale', true);
         rfb.resizeSession = 1;
+
+        
+        //test
     </script>
 </head>
 
