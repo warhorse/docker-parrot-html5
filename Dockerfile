@@ -2,7 +2,9 @@ FROM parrotsec/security:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-COPY sources.list /etc/apt/sources.list
+# COPY sources.list /etc/apt/sources.list
+
+# RUN update-ca-certificates
 
 RUN apt-get update && apt-get install -y apt-utils debconf-utils dialog
 
@@ -11,9 +13,11 @@ RUN echo "resolvconf resolvconf/linkify-resolvconf boolean false" | debconf-set-
 RUN apt-get update
 RUN apt-get install -y resolvconf
 
-RUN apt-get update && apt-get install -y xrdp locales supervisor sudo ibus ibus-mozc dbus dbus-x11
+RUN apt-get update && apt-get install -y xrdp locales supervisor sudo ibus ibus-mozc dbus dbus-x11 
 
-RUN apt-get update && apt-get install -y parrot-interface-common parrot-desktop-xfce
+RUN apt-get update && apt-get -o DPkg::Options::="--force-confnew" install -y parrot-interface-common 
+
+RUN apt-get update && apt-get -o DPkg::Options::="--force-confnew" install -y parrot-desktop-xfce
 
 RUN locale-gen en_US && \
     apt-get update && apt-get install -y git tigervnc-standalone-server && \
@@ -33,9 +37,15 @@ RUN useradd -m -s /bin/bash -G sudo xuser
 
 COPY index.html /root/noVNC/index.html
     
-RUN apt-get update && apt-get install -y xfce4-taskmanager mousepad wget
+RUN apt-get update && apt-get install -y xfce4-taskmanager mousepad wget software-properties-common apt-transport-https
 
 # RUN wget https://oswallpapers.com/wp-content/uploads/2020/04/default-1.jpg -O /usr/share/backgrounds/xfce/default.jpg
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+RUN install -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft-archive-keyring.gpg
+
+RUN sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+RUN apt-get update && apt install code
 
 RUN apt-get upgrade -y
 

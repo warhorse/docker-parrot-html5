@@ -10,8 +10,10 @@ services:
     - VNC_PASSWORD=UQcyNFQ
     - ROOT_PASSWORD=UQcyNFQ
     - XUSER_PASSWORD=UQcyNFQ
+    shm_size: '2gb'
     cap_add:
       - NET_ADMIN
+      - SYS_ADMIN
     restart: always
     volumes:
     - ./home:/home/xuser/files
